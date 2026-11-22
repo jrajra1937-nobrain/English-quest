@@ -1,11 +1,11 @@
-/* English Quest offline cache; scoped to /english-quest/. */
-const CACHE = "english-quest-offline-v1";
-const CORE = ["./", "./index.html", "./content.js", "./manifest.webmanifest", "./icon.svg"];
+/* English Quest standalone offline cache; scoped to this repository's Pages URL. */
+const CACHE = "english-quest-standalone-v2";
+const CORE = ["./", "./index.html", "./content.js", "./audio-map.json", "./manifest.webmanifest", "./icon.svg", "./apple-touch-icon.png"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)).then(() => self.skipWaiting()));
 });
 self.addEventListener("activate", event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith("english-quest-") && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith("english-quest-standalone-") && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 self.addEventListener("fetch", event => {
   const request = event.request;
